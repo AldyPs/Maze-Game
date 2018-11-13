@@ -3,19 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package main;
+
+import view.GameFrame;
+import view.TempatPanel;
 
 /**
  *
- * @author Aldy
+ * @author user only
  */
-public class MazeGame {
-
-    /**
-     * @param args the command line arguments
-     */
+public class GameMain {
     public static void main(String[] args) {
-        // TODO code application logic here
+        GameFrame game = new GameFrame("My Game");
     }
-    
 }
