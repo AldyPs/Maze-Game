@@ -88,7 +88,15 @@ public class GameFrame extends JFrame {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                pindahKanan();
+                if ("D".equalsIgnoreCase(perintahText.getText())) {
+                    pindahKanan();
+                }else if ("A".equalsIgnoreCase(perintahText.getText())) {
+                    pindahKiri();
+                }else if ("W".equalsIgnoreCase(perintahText.getText())) {
+                    pindahAtas();
+                }else if ("X".equalsIgnoreCase(perintahText.getText())) {
+                    pindahBawah();
+                }
             }
         });
 
@@ -112,6 +120,48 @@ public class GameFrame extends JFrame {
         for (int i = 0; i < getTempatPanel().getTempat().getDaftarSel().size(); i++) {
             // set posisiX yang baru
             getTempatPanel().getTempat().getDaftarSel().get(i).geserKanan();
+        }
+        // gambar ulang tempat Panel
+        getTempatPanel().repaint();
+    }
+    
+    /**
+     * Fungsi untuk memindahkan sel dan menggambar ulang
+     */
+    public void pindahKiri() {
+        // posisiX seluruh sel ditambah 20
+        // sehingga sel akan terlihat bergerak ke kanan
+        for (int i = 0; i < getTempatPanel().getTempat().getDaftarSel().size(); i++) {
+            // set posisiX yang baru
+            getTempatPanel().getTempat().getDaftarSel().get(i).geserKiri();
+        }
+        // gambar ulang tempat Panel
+        getTempatPanel().repaint();
+    }
+    
+    /**
+     * Fungsi untuk memindahkan sel dan menggambar ulang
+     */
+    public void pindahAtas() {
+        // posisiX seluruh sel ditambah 20
+        // sehingga sel akan terlihat bergerak ke kanan
+        for (int i = 0; i < getTempatPanel().getTempat().getDaftarSel().size(); i++) {
+            // set posisiX yang baru
+            getTempatPanel().getTempat().getDaftarSel().get(i).geserAtas();
+        }
+        // gambar ulang tempat Panel
+        getTempatPanel().repaint();
+    }
+    
+    /**
+     * Fungsi untuk memindahkan sel dan menggambar ulang
+     */
+    public void pindahBawah() {
+        // posisiX seluruh sel ditambah 20
+        // sehingga sel akan terlihat bergerak ke kanan
+        for (int i = 0; i < getTempatPanel().getTempat().getDaftarSel().size(); i++) {
+            // set posisiX yang baru
+            getTempatPanel().getTempat().getDaftarSel().get(i).geserBawah();
         }
         // gambar ulang tempat Panel
         getTempatPanel().repaint();

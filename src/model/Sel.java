@@ -96,14 +96,40 @@ public class Sel {
      * Fungsi untuk mengecek sel ada di batas atas
      */
     public boolean isBatasAtas() {
-        return false;
+        if (baris * lebar <= 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
      * Fungsi untuk mengecek sel ada di batas bawah
      */
     public boolean isBatasBawah() {
-        return false;
+        if (baris * lebar + lebar < Tempat.batasKanan) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    /**
+     * Fungsi untuk menggeser sel ke kanan
+     */
+    public void geserAtas() {
+        if (isBatasAtas()== false) {
+            baris--;
+        }
+    }
+    
+    /**
+     * Fungsi untuk menggeser sel ke kanan
+     */
+    public void geserBawah() {
+        if (isBatasBawah()== false) {
+            baris++;
+        }
     }
 
     /**
