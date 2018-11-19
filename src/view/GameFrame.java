@@ -114,54 +114,53 @@ public class GameFrame extends JFrame {
     /**
      * Fungsi untuk memindahkan sel dan menggambar ulang
      */
-    public void pindahKanan() {
+     public void pindahKanan() {
         // posisiX seluruh sel ditambah 20
         // sehingga sel akan terlihat bergerak ke kanan
         for (int i = 0; i < getTempatPanel().getTempat().getDaftarSel().size(); i++) {
             // set posisiX yang baru
-            getTempatPanel().getTempat().getDaftarSel().get(i).geserKanan();
+            if (getTempatPanel().getTempat().getDaftarSel().get(i).getNilai() == '@') {
+                getTempatPanel().getTempat().getDaftarSel().get(i).geserKanan();
+            }
         }
         // gambar ulang tempat Panel
         getTempatPanel().repaint();
     }
-    
-    /**
-     * Fungsi untuk memindahkan sel dan menggambar ulang
-     */
+
     public void pindahKiri() {
         // posisiX seluruh sel ditambah 20
-        // sehingga sel akan terlihat bergerak ke kanan
+        // sehingga sel akan terlihat bergerak ke kiri
         for (int i = 0; i < getTempatPanel().getTempat().getDaftarSel().size(); i++) {
             // set posisiX yang baru
-            getTempatPanel().getTempat().getDaftarSel().get(i).geserKiri();
+            if (getTempatPanel().getTempat().getDaftarSel().get(i).getNilai() == '@') {
+                getTempatPanel().getTempat().getDaftarSel().get(i).geserKiri();
+            }
         }
         // gambar ulang tempat Panel
         getTempatPanel().repaint();
     }
-    
-    /**
-     * Fungsi untuk memindahkan sel dan menggambar ulang
-     */
+
     public void pindahAtas() {
         // posisiX seluruh sel ditambah 20
-        // sehingga sel akan terlihat bergerak ke kanan
+        // sehingga sel akan terlihat bergerak ke atas
         for (int i = 0; i < getTempatPanel().getTempat().getDaftarSel().size(); i++) {
             // set posisiX yang baru
-            getTempatPanel().getTempat().getDaftarSel().get(i).geserAtas();
+            if (getTempatPanel().getTempat().getDaftarSel().get(i).getNilai() == '@') {
+                getTempatPanel().getTempat().getDaftarSel().get(i).geserAtas();
+            }
         }
         // gambar ulang tempat Panel
         getTempatPanel().repaint();
     }
-    
-    /**
-     * Fungsi untuk memindahkan sel dan menggambar ulang
-     */
+
     public void pindahBawah() {
         // posisiX seluruh sel ditambah 20
-        // sehingga sel akan terlihat bergerak ke kanan
+        // sehingga sel akan terlihat bergerak ke bawah
         for (int i = 0; i < getTempatPanel().getTempat().getDaftarSel().size(); i++) {
             // set posisiX yang baru
-            getTempatPanel().getTempat().getDaftarSel().get(i).geserBawah();
+            if (getTempatPanel().getTempat().getDaftarSel().get(i).getNilai() == '@') {
+                getTempatPanel().getTempat().getDaftarSel().get(i).geserBawah();
+            }
         }
         // gambar ulang tempat Panel
         getTempatPanel().repaint();
