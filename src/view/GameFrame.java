@@ -49,15 +49,7 @@ public class GameFrame extends JFrame {
     }
 
     public void init() {
-        // set ukuran dan layout
-        this.setSize(500, 300);
-        this.setLayout(new BorderLayout());
-
-        // set menu Bar
-        menuBar = new JMenuBar();
-        gameMenu = new JMenu("Game");
-        exitMenuItem = new JMenuItem("Keluar");
-        bacaKonfigurasiMenuItem = new JMenuItem("Baca");
+       iMenuItem = new JMenuItem("Baca");
         gameMenu.add(bacaKonfigurasiMenuItem);
         gameMenu.add(exitMenuItem);
         menuBar.add(gameMenu);
