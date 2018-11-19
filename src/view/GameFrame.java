@@ -48,7 +48,7 @@ public class GameFrame extends JFrame {
         this.init();
     }
 
-    p
+    public void init() {
         // set ukuran dan layout
         this.setSize(500, 300);
         this.setLayout(new BorderLayout());
