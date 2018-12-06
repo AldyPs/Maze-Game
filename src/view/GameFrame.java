@@ -31,11 +31,17 @@ public class GameFrame extends JFrame {
     private JLabel perintahlabel;
     private JTextField perintahText;
     private JButton okButton;
+    private JButton kanan;
+    private JButton kiri;
+    private JButton atas;
+    private JButton bawah;
 
     private JMenuBar menuBar;
     private JMenu gameMenu;
     private JMenuItem exitMenuItem;
     private JMenuItem bacaKonfigurasiMenuItem;
+    private JMenuItem undoButton;
+    private JMenuItem redoButton;
 
     public GameFrame(String title) {
         this.setTitle(title);
@@ -50,7 +56,7 @@ public class GameFrame extends JFrame {
 
     public void init() {
         // set ukuran dan layout
-        this.setSize(500, 300);
+        this.setSize(700, 600);
         this.setLayout(new BorderLayout());
 
         // set menu Bar
@@ -58,6 +64,10 @@ public class GameFrame extends JFrame {
         gameMenu = new JMenu("Game");
         exitMenuItem = new JMenuItem("Keluar");
         bacaKonfigurasiMenuItem = new JMenuItem("Baca");
+        undoButton = new JMenuItem("Undo");
+        redoButton = new JMenuItem("Redo");
+        gameMenu.add(undoButton);
+        gameMenu.add(redoButton);
         gameMenu.add(bacaKonfigurasiMenuItem);
         gameMenu.add(exitMenuItem);
         menuBar.add(gameMenu);
@@ -99,7 +109,44 @@ public class GameFrame extends JFrame {
                 }
             }
         });
-
+        
+        this.kanan = new JButton("Kanan");
+        southPanel.add(kanan);
+        kanan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               pindahKanan();
+            }
+        });
+        
+        this.kiri = new JButton("Kiri");
+        southPanel.add(kiri);
+        kiri.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               pindahKiri();
+            }
+        });
+        
+        this.atas = new JButton("Atas");
+        southPanel.add(atas);
+        atas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               pindahAtas();
+            }
+        });
+        
+        this.bawah = new JButton("Bawah");
+        southPanel.add(bawah);
+        bawah.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               pindahBawah();
+            }
+        });
+       
+        
         // set contentPane
         Container cp = this.getContentPane();
         if (tempatPanel != null) {
@@ -109,6 +156,8 @@ public class GameFrame extends JFrame {
 
         // set visible= true
         this.setVisible(true);
+        
+        
     }
 
     /**
@@ -126,6 +175,7 @@ public class GameFrame extends JFrame {
         // gambar ulang tempat Panel
         getTempatPanel().repaint();
     }
+     
 
     public void pindahKiri() {
         // posisiX seluruh sel ditambah 20
