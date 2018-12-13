@@ -10,6 +10,7 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import static java.awt.image.ImageObserver.WIDTH;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,6 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import model.Sel;
+import model.Tempat;
 
 /**
  *
@@ -98,53 +100,58 @@ public class GameFrame extends JFrame {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if ("D".equalsIgnoreCase(perintahText.getText())) {
-                    pindahKanan();
-                }else if ("A".equalsIgnoreCase(perintahText.getText())) {
-                    pindahKiri();
-                }else if ("W".equalsIgnoreCase(perintahText.getText())) {
-                    pindahAtas();
-                }else if ("X".equalsIgnoreCase(perintahText.getText())) {
-                    pindahBawah();
+                 String x = perintahText.getText().substring(0, 1);
+                if (perintahText.getText().equalsIgnoreCase((x) + "L")) {
+                    int y = Integer.valueOf(x);
+                    pindahKiri(y);
+                } else if (perintahText.getText().equalsIgnoreCase((x) + "R")) {
+                    int y = Integer.valueOf(x);
+                    pindahKanan(y);
+                } else if (perintahText.getText().equalsIgnoreCase((x) + "U")) {
+                    int y = Integer.valueOf(x);
+                    pindahAtas(y);
+                } else if (perintahText.getText().equalsIgnoreCase((x) + "D")) {
+                    int y = Integer.valueOf(x);
+                    pindahBawah(y);
                 }
             }
         });
         
-        this.kanan = new JButton("Kanan");
-        southPanel.add(kanan);
-        kanan.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               pindahKanan();
-            }
-        });
-        
-        this.kiri = new JButton("Kiri");
-        southPanel.add(kiri);
-        kiri.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               pindahKiri();
-            }
-        });
-        
-        this.atas = new JButton("Atas");
-        southPanel.add(atas);
-        atas.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               pindahAtas();
-            }
-        });
-        
-        this.bawah = new JButton("Bawah");
-        southPanel.add(bawah);
-        bawah.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               pindahBawah();
-            }
-        });
+//        this.kanan = new JButton("Kanan");
+//        southPanel.add(kanan);
+//        kanan.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//               pindahKanan(WIDTH);
+//            }
+//        });
+//        
+//        this.kiri = new JButton("Kiri");
+//        southPanel.add(kiri);
+//        kiri.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                pindahKiri(WIDTH);
+//            }
+//        });
+//        
+//        this.atas = new JButton("Atas");
+//        southPanel.add(atas);
+//        atas.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//               pindahAtas(WIDTH);
+//            }
+//        });
+//        
+//        this.bawah = new JButton("Bawah");
+//        southPanel.add(bawah);
+//        bawah.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//               pindahBawah(WIDTH);
+//            }
+//        });
        
         
         // set contentPane
@@ -163,57 +170,76 @@ public class GameFrame extends JFrame {
     /**
      * Fungsi untuk memindahkan sel dan menggambar ulang
      */
-     public void pindahKanan() {
+         public void pindahKanan(int x) {
         // posisiX seluruh sel ditambah 20
         // sehingga sel akan terlihat bergerak ke kanan
         for (int i = 0; i < getTempatPanel().getTempat().getDaftarSel().size(); i++) {
             // set posisiX yang baru
             if (getTempatPanel().getTempat().getDaftarSel().get(i).getNilai() == '@') {
-                getTempatPanel().getTempat().getDaftarSel().get(i).geserKanan();
+                getTempatPanel().getTempat().getDaftarSel().get(i).geserKanan(x);
+                getTempatPanel().getTempat().getDaftarSel().get(i + x).geserKiri(x);
             }
         }
         // gambar ulang tempat Panel
         getTempatPanel().repaint();
+        Tempat tmp = new Tempat();
+        tmp.setDaftarSel(getTempatPanel().getTempat().getDaftarSel());
+        tmp.setIsi(getTempatPanel().getTempat().getIsi());
+        tempatPanel.setTempat(tmp);
     }
-     
 
-    public void pindahKiri() {
+    public void pindahKiri(int x) {
         // posisiX seluruh sel ditambah 20
         // sehingga sel akan terlihat bergerak ke kiri
         for (int i = 0; i < getTempatPanel().getTempat().getDaftarSel().size(); i++) {
             // set posisiX yang baru
             if (getTempatPanel().getTempat().getDaftarSel().get(i).getNilai() == '@') {
-                getTempatPanel().getTempat().getDaftarSel().get(i).geserKiri();
+                getTempatPanel().getTempat().getDaftarSel().get(i).geserKiri(x);
+                getTempatPanel().getTempat().getDaftarSel().get(i - x).geserKanan(x);
             }
         }
         // gambar ulang tempat Panel
         getTempatPanel().repaint();
+        Tempat tmp = new Tempat();
+        tmp.setDaftarSel(getTempatPanel().getTempat().getDaftarSel());
+        tmp.setIsi(getTempatPanel().getTempat().getIsi());
+        tempatPanel.setTempat(tmp);
     }
 
-    public void pindahAtas() {
+    public void pindahAtas(int x) {
         // posisiX seluruh sel ditambah 20
         // sehingga sel akan terlihat bergerak ke atas
         for (int i = 0; i < getTempatPanel().getTempat().getDaftarSel().size(); i++) {
             // set posisiX yang baru
             if (getTempatPanel().getTempat().getDaftarSel().get(i).getNilai() == '@') {
-                getTempatPanel().getTempat().getDaftarSel().get(i).geserAtas();
+                getTempatPanel().getTempat().getDaftarSel().get(i).geserAtas(x);
+                getTempatPanel().getTempat().getDaftarSel().get(i - 8 * x).geserBawah(x);
             }
         }
         // gambar ulang tempat Panel
         getTempatPanel().repaint();
+        Tempat tmp = new Tempat();
+        tmp.setDaftarSel(getTempatPanel().getTempat().getDaftarSel());
+        tmp.setIsi(getTempatPanel().getTempat().getIsi());
+        tempatPanel.setTempat(tmp);
     }
 
-    public void pindahBawah() {
+    public void pindahBawah(int x) {
         // posisiX seluruh sel ditambah 20
         // sehingga sel akan terlihat bergerak ke bawah
         for (int i = 0; i < getTempatPanel().getTempat().getDaftarSel().size(); i++) {
             // set posisiX yang baru
             if (getTempatPanel().getTempat().getDaftarSel().get(i).getNilai() == '@') {
-                getTempatPanel().getTempat().getDaftarSel().get(i).geserBawah();
+                getTempatPanel().getTempat().getDaftarSel().get(i).geserBawah(x);
+                getTempatPanel().getTempat().getDaftarSel().get(i + 8 * x).geserAtas(x);
             }
         }
         // gambar ulang tempat Panel
         getTempatPanel().repaint();
+        Tempat tmp = new Tempat();
+        tmp.setDaftarSel(getTempatPanel().getTempat().getDaftarSel());
+        tmp.setIsi(getTempatPanel().getTempat().getIsi());
+        tempatPanel.setTempat(tmp);
     }
 
     /**

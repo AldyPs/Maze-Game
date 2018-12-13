@@ -17,11 +17,8 @@ public class Sel {
     private int kolom;
     private int lebar;
     private int tinggi;
-
     private char nilai;
-
     private Color warna;
-
     public Sel() {
     }
 
@@ -53,11 +50,7 @@ public class Sel {
      * @return
      */
     public boolean isBatasKiri() {
-        if (kolom * lebar <= 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return kolom * lebar <= 0;
 
     }
 
@@ -67,68 +60,58 @@ public class Sel {
      * @return
      */
     public boolean isBatasKanan() {
-        if (kolom * lebar + lebar < Tempat.batasKanan) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * Fungsi untuk menggeser sel ke kanan
-     */
-    public void geserKanan() {
-        if (isBatasKanan() == false) {
-            kolom++;
-        }
-    }
-
-    /**
-     * Fungsi untuk menggeser sel ke kanan
-     */
-    public void geserKiri() {
-        if (isBatasKiri() == false) {
-            kolom--;
-        }
+        return kolom * lebar + lebar >= Tempat.batasKanan;
     }
 
     /**
      * Fungsi untuk mengecek sel ada di batas atas
+     * @return 
      */
     public boolean isBatasAtas() {
-        if (baris * lebar <= 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return baris * lebar <= 0;
     }
 
     /**
      * Fungsi untuk mengecek sel ada di batas bawah
+     * @return 
      */
     public boolean isBatasBawah() {
-        if (baris * lebar + lebar < Tempat.batasKanan) {
-            return false;
-        } else {
-            return true;
-        }
+        return baris * lebar + lebar >= Tempat.batasKanan;
     }
     
     /**
      * Fungsi untuk menggeser sel ke kanan
      */
-    public void geserAtas() {
-        if (isBatasAtas()== false) {
-            baris--;
+   public void geserKanan(int x) {
+        if (isBatasKanan() == false) {
+            this.setKolom(kolom += x);
         }
     }
-    
+
     /**
-     * Fungsi untuk menggeser sel ke kanan
+     * Fungsi untuk menggeser sel ke kiri
      */
-    public void geserBawah() {
-        if (isBatasBawah()== false) {
-            baris++;
+    public void geserKiri(int x) {
+        if (isBatasKiri() == false) {
+            this.setKolom(kolom -= x);
+        }
+    }
+
+    /**
+     * Fungsi untuk menggeser sel ke atas
+     */
+    public void geserAtas(int x) {
+        if (isBatasAtas() == false) {
+            this.setBaris(baris -= x);
+        }
+    }
+
+    /**
+     * Fungsi untuk menggeser sel ke bawah
+     */
+    public void geserBawah(int x) {
+        if (isBatasBawah() == false) {
+            this.setBaris(baris += x);
         }
     }
 
