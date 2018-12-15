@@ -274,11 +274,11 @@ if (pemain.getPosisiX() == finish.getPosisiX()) {
     }
 
     public String getTeksPerintah() {
-        String bantu = "";
+        String bntu = "";
         for (int i = 0; i < semuaPerintah.size(); i++) {
-            bantu = bantu + semuaPerintah.get(i) + " ";
+            bntu = bntu + semuaPerintah.get(i) + " ";
         }
-        return bantu;
+        return bntu;
     }
 
 }
