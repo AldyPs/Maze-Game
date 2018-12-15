@@ -1,176 +1,291 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
+import model.Sel;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import Design.Finish;
+import Design.Pemain;
+import Design.Dinding;
 
-/**
- *
- * @author user only
- */
-public class Tempat {
-    private int tinggi; // tinggi tempat Game
-    private int lebar;  // lebar tempat Game
-    private ArrayList<Sel> daftarSel; // daftar sel
+public class Tempat extends JPanel {
 
-    private String isi; // isi file konfigurasi
-    
-    public static int batasKanan;
-    public static int batasBawah;
-    
-    public Tempat() {
-        daftarSel = new ArrayList<Sel>();
+    private ArrayList dinding = new ArrayList();
+    private ArrayList peta = new ArrayList();
+    private Finish finish;
+    private Pemain pemain;
+    private int lebar = 0;
+    private int tinggi = 0;
+    private int jarak = 41;
+    private LinkedList<String> undo = new LinkedList<>();
+    private File Alamatpeta;
+    private ArrayList semuaPerintah = new ArrayList();
+    private boolean completed = false;
+
+    public Tempat(File file) {
+        setPeta(file);
     }
-    
-    
-    
-    /**
-     * Fungsi pembaca file konfigurasi.
-     * Hasil pembacaan file akan disimpan di atribut 'isi' dan juga di atribut daftarSel
-     * @param file 
-     */
-     public void bacaKonfigurasi(File file) {
-     try{
-         FileInputStream fis = new FileInputStream(file);
-         String hasilBaca = "";
-            int dataInt;
-            int baris = 0;
-            int kolom = 0;
-            int t = 40;
-            int l = 40;
 
-            while ((dataInt = fis.read()) != -1) {
-                if ((char) dataInt != '\n') {
-                    if ((char) dataInt == '#') {
-                        hasilBaca = hasilBaca + (char) dataInt;
-                        Sel sel = new Sel();
-                        sel.setNilai((char) dataInt);
-                        sel.setWarna(Color.yellow);
-                        sel.setBaris(baris);
-                        sel.setKolom(kolom);
-                        sel.setTinggi(t);
-                        sel.setLebar(l);
-                        this.tambahSel(sel);
-                        kolom++;
-                    } else if ((char) dataInt == '.') {
-                        hasilBaca = hasilBaca + (char) dataInt;
-                        Sel sel = new Sel();
-                        sel.setNilai((char) dataInt);
-                        sel.setWarna(Color.red);
-                        sel.setBaris(baris);
-                        sel.setKolom(kolom);
-                        sel.setTinggi(t);
-                        sel.setLebar(l);
-                        this.tambahSel(sel);
-                        kolom++;
-                    } else if ((char) dataInt == '@') {
-                        hasilBaca = hasilBaca + (char) dataInt;
-                        Sel sel = new Sel();
-                        sel.setNilai((char) dataInt);
-                        sel.setWarna(Color.BLUE);
-                        sel.setBaris(baris);
-                        sel.setKolom(kolom);
-                        sel.setTinggi(t);
-                        sel.setLebar(l);
-                        this.tambahSel(sel);
-                        kolom++;
-                    } else if ((char) dataInt == 'o') {
-                        hasilBaca = hasilBaca + (char) dataInt;
-                        Sel sel = new Sel();
-                        sel.setNilai((char) dataInt);
-                        sel.setWarna(Color.GREEN);
-                        sel.setBaris(baris);
-                        sel.setKolom(kolom);
-                        sel.setTinggi(t);
-                        sel.setLebar(l);
-                        this.tambahSel(sel);
-                        kolom++;
+    public void setPeta(File file) {
+        try {
+            if (file != null) {
+                FileInputStream input = new FileInputStream(file);
+                Alamatpeta = file;
+                int posisiX = 0;
+                int posisiY = 0;
+                Dinding wall;
+                Finish a;
+                int data;
+                while ((data = input.read()) != -1) {
+                    char item = (char) data;
+                    if (item == '\n') {
+                        posisiY += jarak;
+                        lebar = posisiX;
+                        posisiX = 0;
+                    } else if (item == '#') {
+                        wall = new Dinding(posisiX, posisiY);
+                        dinding.add(wall);
+                        posisiX += jarak;
+                    } else if (item == 'o') {
+                        a = new Finish(posisiX, posisiY);
+                        finish = new Finish(posisiX, posisiY);
+                        posisiX += jarak;
+                    } else if (item == '@') {
+                        pemain = new Pemain(posisiX, posisiY);
+                        posisiX += jarak;
+                    } else if (item == '.') {
+                        posisiX += jarak;
                     }
-
-                } else {
-                    hasilBaca = hasilBaca + (char) dataInt;
-                    baris++;
-                    kolom = 0;
+                    tinggi = posisiY;
                 }
             }
-            this.setIsi(hasilBaca);
-     }  catch (FileNotFoundException ex) {
-            Logger.getLogger(Tempat.class.getName()).log(Level.SEVERE, null, ex);
+
         } catch (IOException ex) {
             Logger.getLogger(Tempat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    /**
-     * Fungsi penambah daftar sel.
-     * @param sel 
-     */
-    public void tambahSel(Sel sel){
-        daftarSel.add(sel);
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(new Color(255, 255, 255));
+        g.fillRect(0, 0, this.getLebar(), this.getTinggi());
+        peta.addAll(dinding);
+        peta.add(finish);
+        peta.add(pemain);
+        for (int i = 0; i < peta.size(); i++) {
+            if (peta.get(i) != null) {
+                Sel item = (Sel) peta.get(i);
+                g.drawImage(item.getImage(), item.getPosisiX(), item.getPosisiY(), this);
+            }
+        }
     }
 
-    /**
-     * @return the tinggi
-     */
-    public int getTinggi() {
-        return tinggi;
-    }
-
-    /**
-     * @param tinggi the tinggi to set
-     */
-    public void setTinggi(int tinggi) {
-        this.tinggi = tinggi;
-    }
-
-    /**
-     * @return the lebar
-     */
     public int getLebar() {
-        return lebar;
+        return this.lebar;
     }
 
-    /**
-     * @param lebar the lebar to set
-     */
-    public void setLebar(int lebar) {
-        this.lebar = lebar;
+    public int getTinggi() {
+        return this.tinggi;
     }
 
-    /**
-     * @return the daftarSel
-     */
-    public ArrayList<Sel> getDaftarSel() {
-        return daftarSel;
+    public void PerintahGerak(String input) {
+        String in[] = input.split("");
+        if (in[0].equalsIgnoreCase("z") && in[1].matches("[123456789]")) {
+            semuaPerintah.add(input);
+            if (!undo.isEmpty()) {
+                for (int index = Integer.parseInt(String.valueOf(in[1])); index > 0; index--) {
+                    String x = undo.removeLast();
+                    String un[] = x.split("");
+                    if (un[0].equalsIgnoreCase("u")) {
+                        for (int i = 0; i < Integer.parseInt(String.valueOf(un[1])); i++) {
+                            if (cekObjekNabrakDinding(pemain, "u")) {
+                                return;
+                            } else {
+                                pemain.Gerak(0, jarak);
+                                repaint();
+                            }
+                        }
+                    } else if (un[0].equalsIgnoreCase("d")) {
+                        for (int i = 0; i < Integer.parseInt(String.valueOf(un[1])); i++) {
+                            if (cekObjekNabrakDinding(pemain, "d")) {
+                                return;
+                            } else {
+                                pemain.Gerak(0, -jarak);
+                                repaint();
+                            }
+                        }
+                    } else if (un[0].equalsIgnoreCase("r")) {
+                        for (int i = 0; i < Integer.parseInt(String.valueOf(un[1])); i++) {
+                            if (cekObjekNabrakDinding(pemain, "r")) {
+                                return;
+                            } else {
+                                pemain.Gerak(-jarak, 0);
+                                repaint();
+                            }
+                        }
+                    } else if (un[0].equalsIgnoreCase("l")) {
+                        for (int i = 0; i < Integer.parseInt(String.valueOf(un[1])); i++) {
+                            if (cekObjekNabrakDinding(pemain, "l")) {
+                                return;
+                            } else {
+                                pemain.Gerak(jarak, 0);
+                                repaint();
+                            }
+                        }
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "perintah mencapai batas");
+            }
+        } else if (in[0].matches("[udrl]") && in[1].matches("[123456789]") && in.length == 2) {
+            undo.addLast(input);
+            semuaPerintah.add(input);
+            if (in[0].equalsIgnoreCase("u")) {
+                for (int i = 0; i < Integer.parseInt(String.valueOf(in[1])); i++) {
+                    if (cekObjekNabrakDinding(pemain, "u")) {
+                        return;
+                    } else {
+                        pemain.Gerak(0, -jarak);
+                        isCompleted();
+                        repaint();
+                    }
+                    if (completed) {
+                        JOptionPane.showMessageDialog(this, "Winner");
+                        System.exit(0);
+                        break;
+                    }
+
+                }
+            } else if (in[0].equalsIgnoreCase("d")) {
+                for (int i = 0; i < Integer.parseInt(String.valueOf(in[1])); i++) {
+                    if (cekObjekNabrakDinding(pemain, "d")) {
+                        return;
+                    } else {
+                        pemain.Gerak(0, jarak);
+                        isCompleted();
+                        repaint();
+                    }
+                    if (completed) {
+                        JOptionPane.showMessageDialog(this, "Winner");
+                        System.exit(0);
+                        break;
+                    }
+                }
+            } else if (in[0].equalsIgnoreCase("r")) {
+                for (int i = 0; i < Integer.parseInt(String.valueOf(in[1])); i++) {
+                    if (cekObjekNabrakDinding(pemain, "r")) {
+                        return;
+                    } else {
+                        pemain.Gerak(jarak, 0);
+                        isCompleted();
+                        repaint();
+                    }
+                    if (completed) {
+                        JOptionPane.showMessageDialog(this, "Winner");
+                        System.exit(0);
+                        break;
+                    }
+                }
+            } else if (in[0].equalsIgnoreCase("l")) {
+                for (int i = 0; i < Integer.parseInt(String.valueOf(in[1])); i++) {
+                    if (cekObjekNabrakDinding(pemain, "l")) {
+                        return;
+                    } else {
+                        pemain.Gerak(-jarak, 0);
+                        isCompleted();
+                        repaint();
+                    }
+                    if (completed) {
+                        JOptionPane.showMessageDialog(this, "Winner");
+                        System.exit(0);
+                        break;
+                    }
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Input Tidak Valid");
+        }
     }
 
-    /**
-     * @param daftarSel the daftarSel to set
-     */
-    public void setDaftarSel(ArrayList<Sel> daftarSel) {
-        this.daftarSel = daftarSel;
+    private boolean cekObjekNabrakDinding(Sel pemain, String input) {
+        boolean bantu = false;
+        if (input.equalsIgnoreCase("l")) {
+            for (int i = 0; i < dinding.size(); i++) {
+                Dinding wall = (Dinding) dinding.get(i);
+                if (pemain.PosisiKiriObjek(wall)) {
+                    bantu = true;
+                    break;
+                }
+            }
+
+        } else if (input.equalsIgnoreCase("r")) {
+            for (int i = 0; i < dinding.size(); i++) {
+                Dinding wall = (Dinding) dinding.get(i);
+                if (pemain.PosisiKananObjek(wall)) {
+                    bantu = true;
+                    break;
+                }
+            }
+        } else if (input.equalsIgnoreCase("u")) {
+            for (int i = 0; i < dinding.size(); i++) {
+                Dinding wall = (Dinding) dinding.get(i);
+                if (pemain.PosisiAtasObjek(wall)) {
+                    bantu = true;
+                    break;
+                }
+            }
+        } else if (input.equalsIgnoreCase("d")) {
+            for (int i = 0; i < dinding.size(); i++) {
+                Dinding wall = (Dinding) dinding.get(i);
+                if (pemain.PosisiBawahObjek(wall)) {
+                    bantu = true;
+                    break;
+                }
+            }
+        }
+        return bantu;//default return false
     }
 
-    /**
-     * @return the isi
-     */
-    public String getIsi() {
-        return isi;
+    public void isCompleted() {
+if (pemain.getPosisiX() == finish.getPosisiX()) {
+            if (pemain.getPosisiY() == finish.getPosisiY()) {
+                completed = true;
+            }
+        }
+
+
     }
 
-    /**
-     * @param isi the isi to set
-     */
-    public void setIsi(String isi) {
-        this.isi = isi;
+    public void restartLevel() {
+        semuaPerintah.clear();
+        dinding.clear();
+        peta.clear();
+        setPeta(Alamatpeta);//set
+        repaint();//gambar ulang
+    }
+
+    public String getTeksPerintah() {
+        String bantu = "";
+        for (int i = 0; i < semuaPerintah.size(); i++) {
+            bantu = bantu + semuaPerintah.get(i) + " ";
+        }
+        return bantu;
+    }
+
+    public int getPoin() {
+        int bantu = semuaPerintah.size();
+        if (bantu < 20) {
+            JOptionPane.showMessageDialog(this, peta);
+        }
+        return bantu;
     }
 }

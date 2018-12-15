@@ -28,6 +28,7 @@ import model.Tempat;
  * @author user only
  */
 public class GameFrame extends JFrame {
+
     private TempatPanel tempatPanel;
 
     private JLabel perintahlabel;
@@ -42,8 +43,8 @@ public class GameFrame extends JFrame {
     private JMenu gameMenu;
     private JMenuItem exitMenuItem;
     private JMenuItem bacaKonfigurasiMenuItem;
-    private JMenuItem undoButton;
-    private JMenuItem redoButton;
+    private JButton undoButton;
+    private JButton redoButton;
 
     public GameFrame(String title) {
         this.setTitle(title);
@@ -66,10 +67,6 @@ public class GameFrame extends JFrame {
         gameMenu = new JMenu("Game");
         exitMenuItem = new JMenuItem("Keluar");
         bacaKonfigurasiMenuItem = new JMenuItem("Baca");
-        undoButton = new JMenuItem("Undo");
-        redoButton = new JMenuItem("Redo");
-        gameMenu.add(undoButton);
-        gameMenu.add(redoButton);
         gameMenu.add(bacaKonfigurasiMenuItem);
         gameMenu.add(exitMenuItem);
         menuBar.add(gameMenu);
@@ -100,7 +97,7 @@ public class GameFrame extends JFrame {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                 String x = perintahText.getText().substring(0, 1);
+                String x = perintahText.getText().substring(0, 1);
                 if (perintahText.getText().equalsIgnoreCase((x) + "L")) {
                     int y = Integer.valueOf(x);
                     pindahKiri(y);
@@ -116,44 +113,59 @@ public class GameFrame extends JFrame {
                 }
             }
         });
+
+        this.undoButton = new JButton("Undo");
+        southPanel.add(undoButton);
+        undoButton.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e
+            ) {
+                String x = perintahText.getText().substring(0, 1);
+                if (perintahText.getText().equalsIgnoreCase((x) + "L")) {
+                    int y = Integer.valueOf(x);
+                    pindahKanan(y);
+                } else if (perintahText.getText().equalsIgnoreCase((x) + "R")) {
+                    int y = Integer.valueOf(x);
+                    pindahKiri(y);
+                } else if (perintahText.getText().equalsIgnoreCase((x) + "U")) {
+                    int y = Integer.valueOf(x);
+                    pindahBawah(y);
+                } else if (perintahText.getText().equalsIgnoreCase((x) + "D")) {
+                    int y = Integer.valueOf(x);
+                    pindahAtas(y);
+                }
+            }
+        }
+        );
         
-//        this.kanan = new JButton("Kanan");
-//        southPanel.add(kanan);
-//        kanan.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//               pindahKanan(WIDTH);
-//            }
-//        });
-//        
-//        this.kiri = new JButton("Kiri");
-//        southPanel.add(kiri);
-//        kiri.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                pindahKiri(WIDTH);
-//            }
-//        });
-//        
-//        this.atas = new JButton("Atas");
-//        southPanel.add(atas);
-//        atas.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//               pindahAtas(WIDTH);
-//            }
-//        });
-//        
-//        this.bawah = new JButton("Bawah");
-//        southPanel.add(bawah);
-//        bawah.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//               pindahBawah(WIDTH);
-//            }
-//        });
-       
-        
+                this.redoButton = new JButton("Redo");
+
+        southPanel.add(redoButton);
+
+        redoButton.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e
+            ) {
+                String x = perintahText.getText().substring(0, 1);
+                if (perintahText.getText().equalsIgnoreCase((x) + "L")) {
+                    int y = Integer.valueOf(x);
+                    pindahKanan(y);
+                } else if (perintahText.getText().equalsIgnoreCase((x) + "R")) {
+                    int y = Integer.valueOf(x);
+                    pindahKiri(y);
+                } else if (perintahText.getText().equalsIgnoreCase((x) + "U")) {
+                    int y = Integer.valueOf(x);
+                    pindahBawah(y);
+                } else if (perintahText.getText().equalsIgnoreCase((x) + "D")) {
+                    int y = Integer.valueOf(x);
+                    pindahAtas(y);
+                }
+            }
+        }
+        );
+
         // set contentPane
         Container cp = this.getContentPane();
         if (tempatPanel != null) {
@@ -163,14 +175,13 @@ public class GameFrame extends JFrame {
 
         // set visible= true
         this.setVisible(true);
-        
-        
+
     }
 
     /**
      * Fungsi untuk memindahkan sel dan menggambar ulang
      */
-         public void pindahKanan(int x) {
+    public void pindahKanan(int x) {
         // posisiX seluruh sel ditambah 20
         // sehingga sel akan terlihat bergerak ke kanan
         for (int i = 0; i < getTempatPanel().getTempat().getDaftarSel().size(); i++) {
