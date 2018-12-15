@@ -281,11 +281,4 @@ if (pemain.getPosisiX() == finish.getPosisiX()) {
         return bantu;
     }
 
-    public int getPoin() {
-        int bantu = semuaPerintah.size();
-        if (bantu < 20) {
-            JOptionPane.showMessageDialog(this, peta);
-        }
-        return bantu;
-    }
 }
