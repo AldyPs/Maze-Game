@@ -129,7 +129,7 @@ public class MazeFrame extends javax.swing.JFrame {
         jTextPane1.setEditable(false);
         jTextPane1.setBackground(new java.awt.Color(0, 204, 153));
         jTextPane1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jTextPane1.setText("Perintah :\nAtas \t: U (Jumlah Langkah)\nBawah \t: D (Jumlah Langkah)\nKanan \t: R (Jumlah Langkah)\nKiri \t: L (Jumlah Langkah)\nUndo \t: Z (Langkah yang di Undo)\n\nContoh : u1\n*Apabila game berakhir makan game akan keluar");
+        jTextPane1.setText("*Untuk memulai game silahkan membuka peta pada bar menu\n \nPerintah :\nAtas \t: U (Jumlah Langkah)\nBawah \t: D (Jumlah Langkah)\nKanan \t: R (Jumlah Langkah)\nKiri \t: L (Jumlah Langkah)\nUndo \t: Z (Langkah yang di Undo)\n\nContoh : u1\n\n*Apabila game berakhir makan game akan keluar ( Sudah Finish )");
         jScrollPane2.setViewportView(jTextPane1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
