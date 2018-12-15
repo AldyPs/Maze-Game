@@ -233,7 +233,7 @@
                   <Color blue="99" green="cc" red="0" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Times New Roman" size="14" style="0"/>
+                  <Font name="Times New Roman" size="16" style="1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="*Untuk memulai game silahkan membuka peta pada bar menu&#xa; &#xa;Perintah :&#xa;Atas &#x9;: U (Jumlah Langkah)&#xa;Bawah &#x9;: D (Jumlah Langkah)&#xa;Kanan &#x9;: R (Jumlah Langkah)&#xa;Kiri &#x9;: L (Jumlah Langkah)&#xa;Undo &#x9;: Z (Langkah yang di Undo)&#xa;&#xa;Contoh : u1&#xa;&#xa;*Apabila game berakhir makan game akan keluar ( Sudah Finish )"/>
               </Properties>
